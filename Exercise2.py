@@ -1,3 +1,4 @@
+#Exercise with OOP
 class Philosopher:
     def __init__(self, fullname, era, books, school):
         self.fullname = fullname

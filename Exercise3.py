@@ -1,3 +1,4 @@
+#Exercise with OOP
 class Dog():
     def __init__(self, name, weight, breed):
         self.name = name
