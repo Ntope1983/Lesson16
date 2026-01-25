@@ -42,15 +42,11 @@ class Arena:
         for character in self.team_b:
             character.print()
 
-    def check_win(self):
-
-
-
     def play(self):
         # delay 0
-        arena_characters_alive = []
-        arena_characters_alive.extend(self.team_a)
-        arena_characters_alive.extend(self.team_b)
-        while True:
-            for alive in arena_characters_alive:
-                if alive.delay > 0:
+        characters_avail_team_a = [char for char in self.team_a if char.delay == 0]
+        characters_avail_team_b = [char for char in self.team_b if char.delay == 0]
+
+        for i in range(len(characters_avail_team_a)):
+            choice = random.choice(characters_avail_team_a)
+            choice.health -= characters_avail_team_a[i].attack()
