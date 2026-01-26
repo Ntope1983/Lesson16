@@ -14,7 +14,7 @@ class Character:
         return random.randint(3, 10)
 
     def is_dead(self):
-        if self.health == 0:
+        if self.health <= 0:
             return True
         else:
             return False
@@ -26,7 +26,7 @@ class Character:
             self.delay -= 1
 
     def print(self):
-        print(f"Character Name: {self.name}.Health{self.health}.Attack_Speed:{self.attack_speed}.Delay:{self.delay}")
+        print(f"Character Name:{self.name},Health:{self.health},Attack_Speed:{self.attack_speed},Delay:{self.delay}")
 
 
 class Arena:
@@ -43,10 +43,56 @@ class Arena:
             character.print()
 
     def play(self):
-        # delay 0
-        characters_avail_team_a = [char for char in self.team_a if char.delay == 0]
-        characters_avail_team_b = [char for char in self.team_b if char.delay == 0]
+        round = 0
+        while True:
+            round += 1
+            print(f"Round:{round}")
+            avail_a = [c for c in self.team_a if c.delay == 0 and not c.is_dead()]
+            avail_b = [c for c in self.team_b if c.delay == 0 and not c.is_dead()]
 
-        for i in range(len(characters_avail_team_a)):
-            choice = random.choice(characters_avail_team_a)
-            choice.health -= characters_avail_team_a[i].attack()
+            alive_a = [c for c in self.team_a if not c.is_dead()]
+            alive_b = [c for c in self.team_b if not c.is_dead()]
+
+            if not alive_a and not alive_b:
+                print("DRAW")
+                break
+            if not alive_a:
+                print("TEAM B wins")
+                break
+            if not alive_b:
+                print("TEAM A wins")
+                break
+
+            for attacker in avail_a:
+                if not alive_b:
+                    break
+                target = random.choice(alive_b)
+                dmg = attacker.attack()
+                target.health = max(0, target.health - dmg)
+
+            for attacker in avail_b:
+                if not alive_a:
+                    break
+                target = random.choice(alive_a)
+                dmg = attacker.attack()
+                target.health = max(0, target.health - dmg)
+
+            for c in self.team_a + self.team_b:
+                if not c.is_dead():
+                    c.end_round()
+
+
+orc1 = Character("Ntope")
+orc2 = Character("Vlassonio")
+orc3 = Character("Xoverdose")
+orc4 = Character("Skoulikion")
+orc5 = Character("Valmadin")
+night_elf1 = Character("Crowly")
+night_elf2 = Character("Hydra")
+night_elf3 = Character("Sodapopin")
+team_a = [orc1, orc2, orc3, orc4, orc5]
+team_b = [night_elf1, night_elf2, night_elf3]
+arena1 = Arena(team_a, team_b)
+arena1.print_state()
+arena1.play()
+arena1.print_state()
