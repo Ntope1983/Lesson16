@@ -15,7 +15,7 @@ def next_id():
 
 
 class Teacher:
-    def __init__(self, first_name="", last_name="", id=next_id()):
+    def __init__(self,id=next_id(), first_name="", last_name=""):
         self.id = id
         self.first_name = first_name
         self.last_name = last_name
@@ -37,5 +37,3 @@ class Teacher:
             f"Last Name : {self.last_name}"
         )
 
-test = Teacher()
-test.print()
