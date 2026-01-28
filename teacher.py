@@ -15,8 +15,11 @@ def next_id():
 
 
 class Teacher:
-    def __init__(self,id=next_id(), first_name="", last_name=""):
-        self.id = id
+    def __init__(self,id=None, first_name="", last_name=""):
+        if id is None:
+            self.id = next_id()
+        else:
+            self.id=id
         self.first_name = first_name
         self.last_name = last_name
 
